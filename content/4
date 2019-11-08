@@ -1,1 +1,3 @@
-Martin Nieva
+¿Qué usaremos?
+import curses
+import blessings

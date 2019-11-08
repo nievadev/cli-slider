@@ -5,6 +5,8 @@ content = "content"
 fd = sys.stdin.fileno()
 old_settings = termios.tcgetattr(fd)
 
+cursor.hide()
+
 try:
     os.chdir("./" + content)
 except FileNotFoundError:
@@ -22,12 +24,18 @@ else:
         with open(file_name, "r") as f:
             os.system("clear")
 
-            content = f.read()
+            content = f.readlines()
 
-            print(content)
+            for i, line in enumerate(content):
+                max_num = len(line) if len(line) > len(content[i - 1]) else len(content[i - 1])
+
+                print(line, end = "")
+
+            # print(max_num)
 
             tty.setraw(fd)
-
             ch = sys.stdin.read(1)
+            while ch != "d":
+                ch = sys.stdin.read(1)
 
-termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
