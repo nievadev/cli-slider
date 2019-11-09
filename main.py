@@ -16,7 +16,6 @@ def main():
     index = 0
 
     while True:
-        lens = list()
         max_num = 0
 
         with open(files[index], "r") as f:
@@ -25,13 +24,9 @@ def main():
             lines = f.readlines()
 
         for i, line in enumerate(lines):
-            lens.append(len(line))
+            max_num = len(line) if len(line) > len(lines[i - 1]) else len(lines[i - 1])
 
         print("\n" * (H - 5))
-
-        lens.sort()
-        
-        max_num = lens[-1]
 
         for i, line in enumerate(lines):
             with TERM.location(W // 2 - max_num // 2, H // 2 + i):
