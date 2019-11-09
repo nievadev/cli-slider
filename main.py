@@ -3,6 +3,8 @@ from blessings import Terminal
 
 CONTENT = "content"
 TERM = Terminal()
+H = TERM.height
+W = TERM.width
 
 def main():
     fd = sys.stdin.fileno()
@@ -14,19 +16,26 @@ def main():
     index = 0
 
     while True:
+        lens = list()
+        max_num = 0
+
         with open(files[index], "r") as f:
             os.system("clear")
             
             lines = f.readlines()
 
-        lines.append("\n" * (TERM.height - 10))
+        for i, line in enumerate(lines):
+            lens.append(len(line))
+
+        print("\n" * (H - 5))
+
+        lens.sort()
+        
+        max_num = lens[-1]
 
         for i, line in enumerate(lines):
-            max_num = len(line) if len(line) > len(lines[i - 1]) else len(lines[i - 1])
-
-            print(line, end = "")
-
-        print(max_num)
+            with TERM.location(W // 2 - max_num // 2, H // 2 + i):
+                print(line, end = "")
 
         tty.setcbreak(fd)
 
