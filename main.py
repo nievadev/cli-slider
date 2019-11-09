@@ -1,51 +1,52 @@
 import sys, termios, tty, subprocess, os
+from blessings import Terminal
 
-content = "content"
-
-fd = sys.stdin.fileno()
-old_settings = termios.tcgetattr(fd)
+CONTENT = "content"
+TERM = Terminal()
 
 def main():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    ch = None
+    
     files = subprocess.check_output(["ls"]).decode("utf-8").split("\n")
     files.pop()
-    files_index = 0
+    index = 0
 
-    for file_name in files:
-        with open(file_name, "r") as f:
+    while True:
+        with open(files[index], "r") as f:
             os.system("clear")
+            
+            lines = f.readlines()
 
-            content = f.readlines()
+        lines.append("\n" * (TERM.height - 10))
 
-            for i, line in enumerate(content):
-                max_num = len(line) if len(line) > len(content[i - 1]) else len(content[i - 1])
+        for i, line in enumerate(lines):
+            max_num = len(line) if len(line) > len(lines[i - 1]) else len(lines[i - 1])
 
-                print(line, end = "")
+            print(line, end = "")
 
-            # print(max_num)
-            print("\n\n\n\n")
+        print(max_num)
 
-            tty.setcbreak(fd)
-            try:
-                ch = sys.stdin.read(1)
-                while ch != "d":
-                    ch = sys.stdin.read(1)
-            except KeyboardInterrupt:
-                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                exit()
+        tty.setcbreak(fd)
 
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        ch = sys.stdin.read(1)
+         
+        if ch == "d" and index != len(files) - 1:
+            index += 1
+
+        elif ch == "a" and index != 0:
+            index -= 1
 
 try:
-    os.chdir("./" + content)
+    os.chdir("./" + CONTENT)
 except FileNotFoundError:
-    subprocess.call(["mkdir", content])
-    os.chdir("./" + content)
+    subprocess.call(["mkdir", CONTENT])
+    os.chdir("./" + CONTENT)
     subprocess.call(["touch", "1"])
     
     with open("1", "r+") as f:
         f.write("Hello! This was automatically created by the script!\n")
 
-    main()
-
-else:
+finally:
     main()
