@@ -1,5 +1,8 @@
-import sys, termios, tty, subprocess, os
+import subprocess, os, cursor
 from blessings import Terminal
+from Getch import Getch
+
+cursor.hide()
 
 CONTENT = "content"
 TERM = Terminal()
@@ -7,8 +10,6 @@ H = TERM.height
 W = TERM.width
 
 def main():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
     ch = None
     
     files = subprocess.check_output(["ls"]).decode("utf-8").split("\n")
@@ -32,15 +33,20 @@ def main():
             with TERM.location(W // 2 - max_num // 2, H // 2 + i):
                 print(line, end = "")
 
-        tty.setcbreak(fd)
+        try:
+            ch = Getch(1)
 
-        ch = sys.stdin.read(1)
+        except KeyboardInterrupt:
+            Getch.turn_normal()
+            cursor.show()
+            exit()
          
-        if ch == "d" and index != len(files) - 1:
-            index += 1
+        else:
+            if ch() == "d" and index != len(files) - 1:
+                index += 1
 
-        elif ch == "a" and index != 0:
-            index -= 1
+            elif ch() == "a" and index != 0:
+                index -= 1
 
 try:
     os.chdir("./" + CONTENT)
