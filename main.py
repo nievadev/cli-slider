@@ -35,6 +35,7 @@ def main():
             ch = Getch(1)
 
         except KeyboardInterrupt:
+            os.system("clear")
             Getch.turn_normal()
             exit()
          
@@ -46,6 +47,7 @@ def main():
                 index -= 1
 
             elif ch() == "o":
+                os.system("clear")
                 Getch.turn_normal()
                 exit()
 

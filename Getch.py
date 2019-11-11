@@ -1,4 +1,4 @@
-import termios, sys, tty, cursor
+import termios, sys, tty, cursor, os
 
 FD = sys.stdin.fileno()
 SETTINGS = termios.tcgetattr(FD)
@@ -23,6 +23,9 @@ class Getch:
         return self.ch
 
     @staticmethod
-    def turn_normal():
+    def turn_normal(flush = True):
+        if flush:
+            os.system("clear")
+
         termios.tcsetattr(FD, termios.TCSADRAIN, SETTINGS)
         cursor.show()
