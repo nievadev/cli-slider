@@ -1,4 +1,4 @@
-import termios, sys, tty
+import termios, sys, tty, cursor
 
 FD = sys.stdin.fileno()
 SETTINGS = termios.tcgetattr(FD)
@@ -9,6 +9,8 @@ class Getch:
             tty.setraw(FD)
         else:
             tty.setcbreak(FD)
+
+        cursor.hide()
 
         self.ch = sys.stdin.read(chars)
 
@@ -23,3 +25,4 @@ class Getch:
     @staticmethod
     def turn_normal():
         termios.tcsetattr(FD, termios.TCSADRAIN, SETTINGS)
+        cursor.show()

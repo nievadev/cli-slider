@@ -1,8 +1,6 @@
-import subprocess, os, cursor
+import subprocess, os
 from blessings import Terminal
 from Getch import Getch
-
-cursor.hide()
 
 CONTENT = "content"
 TERM = Terminal()
@@ -38,7 +36,6 @@ def main():
 
         except KeyboardInterrupt:
             Getch.turn_normal()
-            cursor.show()
             exit()
          
         else:
@@ -47,6 +44,10 @@ def main():
 
             elif ch() == "a" and index != 0:
                 index -= 1
+
+            elif ch() == "o":
+                Getch.turn_normal()
+                exit()
 
 try:
     os.chdir("./" + CONTENT)
