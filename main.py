@@ -22,8 +22,9 @@ def main():
             
             lines = f.readlines()
 
-        for i, line in enumerate(lines):
-            max_num = len(line) if len(line) > len(lines[i - 1]) else len(lines[i - 1])
+        for i in range(len(lines)):
+            if len(lines[i]) > max_num:
+                max_num = len(lines[i])
 
         print("\n" * (H - 5))
 

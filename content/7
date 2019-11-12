@@ -1,0 +1,14 @@
+      (emulated)
+       terminal
+          |
+   +------+------+
+   |             |
+   v             v
+termcap       terminfo
+   |             |
+   |             |
+   +------+------+
+          |
+          v
+       curses/
+       ncurses
