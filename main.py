@@ -29,7 +29,7 @@ def main():
         print("\n" * (H - 5))
 
         for i, line in enumerate(lines):
-            with TERM.location(W // 2 - max_num // 2, H // 2 + i):
+            with TERM.location(W // 2 - max_num // 2, H // 2 + i - len(lines) // 2):
                 print(line, end = "")
 
         try:
