@@ -1,4 +1,4 @@
-import subprocess, os
+import subprocess, os, termios, sys, cursor
 from blessings import Terminal
 from Getch import Getch
 
@@ -6,6 +6,13 @@ CONTENT = "content"
 TERM = Terminal()
 H = TERM.height
 W = TERM.width
+FD = sys.stdin.fileno()
+SETTINGS = termios.tcgetattr(FD)
+
+def just_exit():
+    termios.tcsetattr(FD, termios.TCSADRAIN, SETTINGS)
+    cursor.show()
+    exit()
 
 def main():
     ch = None
@@ -36,9 +43,7 @@ def main():
             ch = Getch(1)
 
         except KeyboardInterrupt:
-            os.system("clear")
-            Getch.turn_normal()
-            exit()
+            just_exit()
          
         else:
             if ch() == "d" and index != len(files) - 1:
@@ -48,9 +53,7 @@ def main():
                 index -= 1
 
             elif ch() == "o":
-                os.system("clear")
-                Getch.turn_normal()
-                exit()
+                just_exit()
 
 try:
     os.chdir("./" + CONTENT)
