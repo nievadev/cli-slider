@@ -1,4 +1,4 @@
-import termios, sys, tty, os
+import termios, sys, tty, os, cursor
 
 FD = sys.stdin.fileno()
 SETTINGS = termios.tcgetattr(FD)
@@ -16,7 +16,7 @@ class Getch:
 
         termios.tcsetattr(FD, termios.TCSADRAIN, SETTINGS)
 
-        cursor.how()
+        cursor.show()
 
     def __call__(self):
         return self.ch

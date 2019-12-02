@@ -1,0 +1,7 @@
+                    import curses
+
+- Manejo de teclado -> getch()
+- Colores -> init_pair(), color_pair()
+- Terminal independiente
+- Modos cbreak, raw y cooked
+- Acceder a terminfo -> tparm(), tigetstr() y putp()

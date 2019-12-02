@@ -1,17 +1,16 @@
-import subprocess, os, termios, sys, cursor
+import subprocess, os, termios, sys
 from blessings import Terminal
 from Getch import Getch
 
 CONTENT = "content"
-TERM = Terminal()
-H = TERM.height
-W = TERM.width
+term = Terminal()
+H = term.height
+W = term.width
 FD = sys.stdin.fileno()
 SETTINGS = termios.tcgetattr(FD)
 
 def just_exit():
     termios.tcsetattr(FD, termios.TCSADRAIN, SETTINGS)
-    cursor.show()
     exit()
 
 def main():
@@ -33,11 +32,10 @@ def main():
             if len(lines[i]) > max_num:
                 max_num = len(lines[i])
 
-        print("\n" * (H - 5))
-
-        for i, line in enumerate(lines):
-            with TERM.location(W // 2 - max_num // 2, H // 2 + i - len(lines) // 2):
-                print(line, end = "")
+        with term.hidden_cursor():
+            for i, line in enumerate(lines):
+                with term.location(W // 2 - max_num // 2, H // 2 + i - len(lines) // 2):
+                    print(line, end = "")
 
         try:
             ch = Getch(1)
