@@ -1,0 +1,7 @@
+                import blessings
+
+- Está hecho con curses
+- Está en Pypi
+- Manipulación del cursor
+- Colores -> Terminal().red_on_black("Hello!")
+- Obtención de atributos -> Terminal().height

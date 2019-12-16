@@ -1,7 +1,10 @@
                     import curses
 
+- Built-in
 - Manejo de teclado -> getch()
+- Manipulación de cursor -> stdscr.move(y, x)
 - Colores -> init_pair(), color_pair()
-- Terminal independiente
-- Modos cbreak, raw y cooked
+- Obtención de atributos -> stdscr.getmaxyx()
+- Livianísimo
+- cbreak & raw
 - Acceder a terminfo -> tparm(), tigetstr() y putp()
